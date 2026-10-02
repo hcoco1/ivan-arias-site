@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+import RowLink from '../components/RowLink.astro';
+import projects from '../data/projects.json';
+import { SITE } from '../data/site';
+import { getPosts, shortDate } from '../lib/posts';
+
+const featured = projects.filter((p) => p.featured).slice(0, 3);
+const latest = (await getPosts()).slice(0, 3);
+---
+<BaseLayout current="home">
+  <div class="column column-640">
+    <h1>Ivan Arias</h1>
+    <div class="subtitle">GIS Analyst · Geospatial data &amp; Web GIS</div>
+
+    <p class="lead justify">I spent thirteen years mapping what lies underground for PDVSA in Venezuela and Ecuador. Since 2022 I've been bringing that work to the web, building maps and spatial tools with Python, PostGIS and Leaflet.</p>
+    <p class="lead-2">Now in Den Haag and looking for GIS analyst and Web GIS roles. <a href={`mailto:${SITE.email}`}>Say hello.</a></p>
+
+    <SectionLabel top={88}>Selected projects</SectionLabel>
+    {featured.map((p) => (
+      <RowLink href={`https://${p.url}`} external class="project">
+        <span class="top">
+          <span class="name">{p.name}</span>
+          <span class="stack accent">{p.stack}</span>
+        </span>
+        <span class="desc">{p.desc}</span>
+      </RowLink>
+    ))}
+    <a href="/projects/" class="all accent">All projects →</a>
+
+    <SectionLabel top={72}>Writing</SectionLabel>
+    {latest.map((post) => (
+      <RowLink href={`/blog/${post.id}/`} class="post">
+        <span class="title">{post.data.title}</span>
+        <time class="date nums" datetime={post.data.pubDate.toISOString()}>{shortDate(post.data.pubDate)}</time>
+      </RowLink>
+    ))}
+  </div>
+</BaseLayout>
+
+<style>
+  h1 {
+    margin: 0; font-family: var(--font-heading); font-weight: 400;
+    font-size: clamp(52px, 9vw, 88px); line-height: .95; letter-spacing: -0.025em;
+  }
+  .subtitle { margin-top: 16px; font-style: italic; font-size: 18px; color: var(--color-neutral-700); }
+  .lead { margin: 48px 0 0; font-size: 18px; line-height: 1.7; }
+  .lead-2 { margin: 16px 0 0; font-size: 18px; line-height: 1.7; color: var(--color-neutral-700); }
+  .lead-2 a { color: var(--color-accent-700); text-decoration: underline; text-underline-offset: 4px; }
+
+  .project { display: flex; flex-direction: column; gap: 6px; padding: 24px 0; }
+  .top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 24px; }
+  .name { font-family: var(--font-heading); font-weight: 600; font-size: 26px; line-height: 1.15; }
+  .stack { font-size: 13px; }
+  .desc { font-size: 15px; line-height: 1.6; color: var(--color-neutral-700); }
+  .all { display: inline-block; margin-top: 20px; font-size: 14px; }
+
+  .post {
+    display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline;
+    gap: 4px 24px; padding: 18px 0;
+  }
+  .title { flex: 1 1 320px; font-family: var(--font-heading); font-weight: 600; font-size: 21px; line-height: 1.25; }
+  .date { font-size: 13px; color: var(--color-neutral-600); }
+</style>

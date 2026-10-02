@@ -1,0 +1,121 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { longDate, readingTime, bodyText, type Post } from '../lib/posts';
+
+interface Props {
+  post: Post;
+  older?: Post;
+  newer?: Post;
+}
+
+const { post, older, newer } = Astro.props;
+const { title, description, pubDate, category, tags } = post.data;
+const hasBody = bodyText(post).length > 0;
+---
+<BaseLayout title={title} description={description} current="writing" article={{ published: pubDate, tags }}>
+  <article class="column column-640">
+    <a href="/blog/" class="back accent">← Writing</a>
+
+    <div class="meta nums">
+      <time datetime={pubDate.toISOString()}>{longDate(pubDate)}</time>
+      <span class="accent">{category}</span>
+      {hasBody && <span>{readingTime(post)}</span>}
+    </div>
+
+    <h1>{title}</h1>
+    <p class="dek">{description}</p>
+
+    {tags.length > 0 && (
+      <div class="tags">
+        {tags.map((t) => <span class="tag tag-outline">{t}</span>)}
+      </div>
+    )}
+
+    <div class="rule-section-top divider"></div>
+
+    {hasBody ? (
+      <div class="prose"><slot /></div>
+    ) : (
+      <p class="missing">
+        This post hasn't been moved over yet.
+        <a href={`https://www.hcoco1.com/blog/${post.id}`} target="_blank" rel="noopener">Read it on hcoco1.com.</a>
+      </p>
+    )}
+
+    {(older || newer) && (
+      <nav class="post-nav rule-section-top" aria-label="More posts">
+        {older && (
+          <a href={`/blog/${older.id}/`} class="rule-row older" rel="prev">
+            <span class="dir">Older</span>
+            <span class="t">{older.data.title}</span>
+          </a>
+        )}
+        {newer && (
+          <a href={`/blog/${newer.id}/`} class="rule-row newer" rel="next">
+            <span class="dir">Newer</span>
+            <span class="t">{newer.data.title}</span>
+          </a>
+        )}
+      </nav>
+    )}
+  </article>
+</BaseLayout>
+
+<style>
+  .back { font-size: 14px; }
+  .meta {
+    margin-top: 48px; display: flex; flex-wrap: wrap; gap: 6px 20px;
+    font-size: 13px; color: var(--color-neutral-600);
+  }
+  h1 {
+    margin: 16px 0 0; font-family: var(--font-heading); font-weight: 400;
+    font-size: clamp(40px, 6.5vw, 60px); line-height: 1.05; letter-spacing: -0.02em; text-wrap: balance;
+  }
+  .dek {
+    margin: 24px 0 0; font-style: italic; font-size: 19px; line-height: 1.55;
+    color: var(--color-neutral-700); text-wrap: pretty;
+  }
+  .tags { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag-outline { color: var(--color-accent-700); }
+  .divider { margin-top: 40px; }
+
+  .missing { margin: 32px 0 0; font-size: 17px; line-height: 1.6; color: var(--color-neutral-700); }
+  .missing a { color: var(--color-accent-700); text-decoration: underline; text-underline-offset: 4px; }
+
+  .post-nav { margin-top: 88px; display: flex; flex-wrap: wrap; gap: 0 32px; }
+  .post-nav a { flex: 1 1 240px; display: flex; flex-direction: column; gap: 8px; padding: 24px 0; }
+  .post-nav .older { text-align: left; }
+  .post-nav .newer { text-align: right; }
+  .dir { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--color-neutral-600); }
+  .t { font-family: var(--font-heading); font-weight: 600; font-size: 21px; line-height: 1.25; text-wrap: pretty; }
+
+  /* — Markdown body — */
+  .prose :global(p) { margin: 24px 0 0; font-size: 18px; line-height: 1.7; text-align: justify; hyphens: auto; }
+  .prose :global(h2) {
+    margin: 64px 0 0; font-family: var(--font-heading); font-weight: 500;
+    font-size: 32px; line-height: 1.15; text-wrap: balance;
+  }
+  .prose :global(h3) { margin: 40px 0 0; font-family: var(--font-heading); font-weight: 600; font-size: 23px; line-height: 1.2; }
+  .prose :global(ul),
+  .prose :global(ol) { margin: 20px 0 0; padding-left: 1.25em; font-size: 17px; line-height: 1.6; }
+  .prose :global(ol) { font-variant-numeric: tabular-nums; }
+  .prose :global(li) { padding-left: 6px; }
+  .prose :global(li + li) { margin-top: 10px; }
+  .prose :global(pre) {
+    margin: 28px 0 0; padding: 20px 24px;
+    border: 1px solid var(--color-divider); border-radius: var(--radius-md);
+    background: transparent !important; /* override Shiki's inline fill */
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 14px; line-height: 1.7;
+    overflow-x: auto; white-space: pre;
+  }
+  .prose :global(code) { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.88em; color: var(--color-neutral-800); }
+  .prose :global(pre code) { font-size: inherit; color: inherit; }
+  .prose :global(a) { color: var(--color-accent-700); text-decoration: underline; text-underline-offset: 4px; }
+  .prose :global(strong) { font-weight: 600; }
+  .prose :global(hr) { margin: 48px auto; border: 0; border-top: 1px solid var(--color-divider); }
+  .prose :global(blockquote) {
+    margin: 32px 0 0; padding-left: 24px; border-left: 1px solid var(--color-accent);
+    font-family: var(--font-heading); font-style: italic; font-size: 24px; line-height: 1.4;
+  }
+  .prose :global(blockquote p) { margin: 0; font-size: inherit; line-height: inherit; text-align: left; }
+</style>

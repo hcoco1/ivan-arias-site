@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.astro/
+
+# local environment files (the site needs none; keep secrets out of git)
+.env
+.env.*
+!.env.example

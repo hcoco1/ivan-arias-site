@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import RowLink from '../../components/RowLink.astro';
+import { getPosts, shortDate } from '../../lib/posts';
+
+const posts = await getPosts();
+---
+<BaseLayout title="Writing" description="Notes from the move from geology into web development." current="writing">
+  <div class="column column-760">
+    <h1 class="page-title">Writing</h1>
+    <p class="page-intro">Notes from the move from geology into web development: what I built, what broke, and what I learned along the way.</p>
+
+    <div class="list rule-section-top">
+      {posts.map((post) => (
+        <RowLink href={`/blog/${post.id}/`} class="row">
+          <span class="left nums">
+            <time datetime={post.data.pubDate.toISOString()}>{shortDate(post.data.pubDate)}</time>
+            <span class="accent">{post.data.category}</span>
+          </span>
+          <span class="right">
+            <span class="title">{post.data.title}</span>
+            <span class="desc justify">{post.data.description}</span>
+          </span>
+        </RowLink>
+      ))}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .list { margin-top: 64px; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px 32px; padding: 32px 0; }
+  .left { flex: 0 0 120px; display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: var(--color-neutral-600); }
+  .right { flex: 1 1 320px; display: flex; flex-direction: column; gap: 10px; }
+  .title { font-family: var(--font-heading); font-weight: 600; font-size: 28px; line-height: 1.15; text-wrap: pretty; }
+  .desc { font-size: 15px; line-height: 1.65; color: var(--color-neutral-700); }
+</style>

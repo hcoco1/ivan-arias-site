@@ -1,0 +1,15 @@
+---
+/** Section label (h2): Lora 12px uppercase over a section rule. `top` = margin above in px. */
+interface Props { top?: number }
+const { top = 0 } = Astro.props;
+---
+<h2 style={`margin-top:${top}px`}><slot /></h2>
+
+<style>
+  h2 {
+    margin: 0; padding-bottom: 12px;
+    border-bottom: 1px solid var(--color-text);
+    font-family: var(--font-body); font-weight: 400; font-size: 12px;
+    letter-spacing: .1em; text-transform: uppercase;
+  }
+</style>

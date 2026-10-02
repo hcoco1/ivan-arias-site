@@ -1,0 +1,81 @@
+---
+import { NAV, SITE, type NavId } from '../data/site';
+
+interface Props { current?: NavId }
+const { current } = Astro.props;
+---
+<header class="rule-row">
+  <a href="/" class="brand">Ivan Arias</a>
+
+  <div data-wide class="wide">
+    <nav aria-label="Main" class="links">
+      {NAV.map((n) => (
+        <a href={n.href} class:list={{ current: n.id === current }} aria-current={n.id === current ? 'page' : undefined}>{n.label}</a>
+      ))}
+    </nav>
+    <a href={`mailto:${SITE.email}`} class="btn btn-primary">Get in touch</a>
+  </div>
+
+  <button data-narrow type="button" class="menu-toggle" aria-expanded="false" aria-controls="mobile-menu">Menu</button>
+</header>
+
+<nav id="mobile-menu" data-narrow class="overlay" aria-label="Main" hidden>
+  {NAV.map((n, i) => (
+    <a href={n.href} class="rule-row" aria-current={n.id === current ? 'page' : undefined}>
+      <span class:list={['label', { current: n.id === current }]}>{n.label}</span>
+      <span class="num nums">{String(i + 1).padStart(2, '0')}</span>
+    </a>
+  ))}
+  <a href={`mailto:${SITE.email}`} class="btn btn-primary cta">{SITE.email}</a>
+</nav>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  // While the overlay is open it replaces the page, so hide everything below the header.
+  const page = document.querySelectorAll<HTMLElement>('.shell > main, .shell > footer');
+  const isOpen = () => button?.getAttribute('aria-expanded') === 'true';
+
+  function setOpen(open: boolean, { restoreFocus = true } = {}) {
+    if (!button || !menu || open === isOpen()) return;
+    menu.hidden = !open;
+    page.forEach((el) => { el.hidden = open; });
+    button.setAttribute('aria-expanded', String(open));
+    button.textContent = open ? 'Close' : 'Menu';
+    if (open) menu.querySelector('a')?.focus();
+    else if (restoreFocus) button.focus();
+  }
+
+  button?.addEventListener('click', () => setOpen(!isOpen()));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
+  // The button disappears at the wide breakpoint, so don't send focus to it there.
+  window.matchMedia('(min-width:720px)').addEventListener('change', (e) => { if (e.matches) setOpen(false, { restoreFocus: false }); });
+</script>
+
+<style>
+  header {
+    display: flex; align-items: center; gap: 28px;
+    padding: 0 clamp(24px, 5vw, 56px); min-height: 72px;
+  }
+  .brand { font-family: var(--font-heading); font-weight: 600; font-size: 22px; margin-right: auto; }
+
+  .wide { display: flex; align-items: center; gap: 28px; }
+  .links { display: flex; gap: 28px; font-size: 14px; }
+  .links a.current { color: var(--color-accent-700); text-decoration: underline; text-underline-offset: 6px; }
+
+  .menu-toggle {
+    display: flex; align-items: center; min-height: 44px; padding: 0 4px;
+    font: inherit; font-size: 14px; color: inherit;
+    background: none; border: 0; cursor: pointer;
+  }
+  .menu-toggle:hover { color: var(--color-accent-700); }
+
+  .overlay { padding: 24px; display: flex; flex-direction: column; flex: 1; }
+  .overlay > a:not(.cta) {
+    display: flex; align-items: baseline; justify-content: space-between; padding: 18px 0;
+  }
+  .label { font-family: var(--font-heading); font-size: 40px; line-height: 1; color: var(--color-text); }
+  .label.current { color: var(--color-accent-700); }
+  .num { font-size: 12px; color: var(--color-neutral-600); }
+  .cta { margin-top: 32px; min-height: 48px; font-size: 16px; }
+</style>

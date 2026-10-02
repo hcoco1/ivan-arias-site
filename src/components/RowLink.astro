@@ -1,0 +1,9 @@
+---
+/** A list row that is a link, with the row rule below. External links open in a new tab. */
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'a'> { external?: boolean }
+const { external = false, class: className, ...rest } = Astro.props;
+const ext = external ? { target: '_blank', rel: 'noopener' } : {};
+---
+<a class:list={['rule-row', className]} {...ext} {...rest}><slot /></a>

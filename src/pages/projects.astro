@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import RowLink from '../components/RowLink.astro';
+import projects from '../data/projects.json';
+---
+<BaseLayout title="Projects" description="Maps and spatial tools Ivan Arias has built since 2022." current="projects">
+  <div class="column column-760">
+    <h1 class="page-title">Projects</h1>
+    <p class="page-intro">Maps and spatial tools I've built since 2022, mostly to learn something I needed. The full portfolio has more than twenty, including cloud and security coursework.</p>
+
+    <div class="list rule-section-top">
+      {projects.map((p, i) => (
+        <RowLink href={`https://${p.url}`} external class="row">
+          <span class="n nums">{String(i + 1).padStart(2, '0')}</span>
+          <span class="mid">
+            <span class="name">{p.name}</span>
+            <span class="desc justify">{p.desc}</span>
+          </span>
+          <span class="side">
+            <span>{p.stack}</span>
+            <span class="accent">{p.url}</span>
+          </span>
+        </RowLink>
+      ))}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .list { margin-top: 64px; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 28px 0; align-items: baseline; }
+  .n { flex: 0 0 48px; font-size: 13px; color: var(--color-neutral-600); }
+  .mid { flex: 1 1 300px; display: flex; flex-direction: column; gap: 8px; }
+  .name { font-family: var(--font-heading); font-weight: 600; font-size: 26px; line-height: 1.15; }
+  .desc { font-size: 15px; line-height: 1.6; color: var(--color-neutral-700); }
+  .side { flex: 0 1 200px; display: flex; flex-direction: column; gap: 6px; font-size: 13px; }
+</style>

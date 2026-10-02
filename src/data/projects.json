@@ -1,0 +1,8 @@
+[
+  { "name": "Oil & Gas GIS Web App", "desc": "Full-stack web GIS for field infrastructure: boreholes, pipelines and licence boundaries.", "stack": "PostGIS · FastAPI · Leaflet", "url": "maps.hcoco1.com", "featured": true },
+  { "name": "GIS Competency Portfolio", "desc": "Evidence-based portfolio documenting core GIS competencies: workflows, SQL and spatial data QA.", "stack": "Spatial SQL · QA", "url": "geospatial.hcoco1.com", "featured": true },
+  { "name": "Leaflet Vanilla JS Web Map", "desc": "Framework-free spatial web application with layer management, interaction patterns and a responsive UI.", "stack": "JavaScript · Leaflet", "url": "gis.hcoco1.com", "featured": true },
+  { "name": "Student Performance Dashboard", "desc": "Python and Plotly Dash analytics dashboard for academic performance data.", "stack": "Python · Plotly Dash", "url": "dashboard.hcoco1.com" },
+  { "name": "Expense Tracker", "desc": "Personal expense and income tracker with themes, languages, real-time data and export features.", "stack": "React · Vite · Supabase", "url": "hcoco1.com/portfolio/expenses" },
+  { "name": "ProLift", "desc": "Mobile-first gym tracker for strength and cardio workouts, with stats, streaks and body measurements.", "stack": "Mobile web app", "url": "hcoco1.com/portfolio/proliftmd" }
+]

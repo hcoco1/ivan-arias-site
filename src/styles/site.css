@@ -1,0 +1,70 @@
+/* Site-level rules on top of classical.css (tokens + component classes). */
+
+/* — base — */
+/* Always reserve the scrollbar's space, so centred content doesn't shift sideways
+   when moving between short pages (no scrollbar) and long ones. */
+html { scrollbar-gutter: stable; }
+body { margin: 0; background: var(--color-bg); color: var(--color-text); font-family: var(--font-body); }
+a { color: inherit; text-decoration: none; }
+a:hover { color: var(--color-accent-700); }
+li::marker { color: var(--color-accent-700); }
+[hidden] { display: none !important; }
+
+/* — page shell: header, main (grows), footer — */
+.shell { min-height: 100vh; display: flex; flex-direction: column; }
+.shell > main { flex: 1; padding: clamp(48px, 9vw, 104px) clamp(24px, 5vw, 56px) 96px; }
+
+/* — page-to-page transition: a soft cross-fade instead of an instant swap.
+     Pure CSS (cross-document view transitions); browsers without support just
+     navigate as before. The header is named so it stays still while the page fades. — */
+@view-transition { navigation: auto; }
+.shell > header { view-transition-name: site-header; }
+::view-transition-old(root),
+::view-transition-new(root) { animation-duration: 280ms; animation-timing-function: ease; }
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+}
+
+/* — breakpoint (header only): render both, hide one — */
+@media (max-width: 719px) { [data-wide] { display: none !important; } }
+@media (min-width: 720px) { [data-narrow] { display: none !important; } }
+
+/* — recurring patterns — */
+.column { margin: 0 auto; }
+.column-640 { max-width: 640px; }
+.column-760 { max-width: 760px; }
+
+.page-title {
+  margin: 0; font-family: var(--font-heading); font-weight: 400;
+  font-size: clamp(52px, 8vw, 64px); line-height: 1; letter-spacing: -0.02em;
+}
+.page-intro {
+  margin: 20px 0 0; max-width: 540px;
+  font-size: 17px; line-height: 1.6; color: var(--color-neutral-700); text-wrap: pretty;
+}
+.justify { text-align: justify; hyphens: auto; }
+.nums { font-variant-numeric: tabular-nums; }
+.accent { color: var(--color-accent-700); }
+
+/* Two rule weights */
+.rule-section-top { border-top: 1px solid var(--color-text); }
+.rule-row { border-bottom: 1px solid var(--color-divider); }
+
+/* Primary button text uses accent-700 at UI sizes */
+.btn-primary { font-size: 15px; color: var(--color-accent-700); }
+
+/* — print (About page is the printable resume) — */
+@media print {
+  @page { margin: 16mm 18mm; }
+  html, body { background: #fff; }
+  [data-noprint], header, footer { display: none !important; }
+  .shell > main { padding: 0; }
+  [data-about] { display: block !important; max-width: none !important; }
+  [data-about] > * { max-width: none !important; }
+  [data-about] aside { margin-bottom: 20px !important; gap: 6px !important; }
+  [data-about] h1 { font-size: 40px !important; }
+  [data-about] h2 { margin-top: 28px !important; }
+  [data-keep] { break-inside: avoid; }
+  a { color: inherit !important; text-decoration: none !important; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}

@@ -1,0 +1,33 @@
+{
+  "name": "Ivan Arias",
+  "role": "GIS Analyst",
+  "focus": "Geospatial data & Web GIS",
+  "location": "Den Haag, Netherlands",
+  "email": "arias.ivan@gmail.com",
+  "links": {
+    "cv": "https://resume.hcoco1.com/",
+    "cvEs": "https://resume.hcoco1.com/es",
+    "github": "https://github.com/hcoco1",
+    "linkedin": "https://www.linkedin.com/in/hcoco1",
+    "twitter": "https://twitter.com/hcoco1"
+  },
+  "experience": [
+    { "years": "2005 — 2018", "title": "GIS & Subsurface Spatial Data", "org": "PDVSA · Venezuela & Ecuador", "body": "Produced thematic maps of oil exploration fields in ArcGIS and built and maintained the field-development geodatabases used by exploration and drilling teams. Integrated well-log, core and seismic data across the Barinas-Apure Basin, Santa Elena Fold Belt and Progreso Basin." },
+    { "years": "2018 — 2019", "title": "Independent Geoscience Consultant", "org": "Venezuela", "body": "Sedimentology and stratigraphy on a consulting basis (ArcGIS, Petrel)." },
+    { "years": "2019 — now", "title": "Additional experience", "org": "USA → Netherlands", "body": "Full-time employment maintained throughout the career transition: Wasco, Den Haag (2026–present); Fidelity Fulfilment & CEVA Logistics (2025–2026); Amazon, Orlando FL (2020–2025)." }
+  ],
+  "skills": [
+    { "group": "Geospatial", "items": "ArcGIS, QGIS, PostGIS, spatial SQL, GeoJSON, Leaflet, geodatabase design, cartography, geostatistics" },
+    { "group": "Data & backend", "items": "Python, SQL, PostgreSQL, FastAPI, Flask, SQLAlchemy, REST APIs, Plotly Dash" },
+    { "group": "Web", "items": "JavaScript, React, Astro, Vite, Tailwind CSS" },
+    { "group": "Platform", "items": "Git, Linux, Docker, AWS, Terraform, CI/CD" }
+  ],
+  "education": [
+    { "years": "2009 — 2013", "what": "MSc Geological Sciences", "where": "Central University of Venezuela" },
+    { "years": "1999 — 2005", "what": "Geological Engineer", "where": "Central University of Venezuela" },
+    { "years": "2024", "what": "Cloud Mastery", "where": "Digital Cloud Training" },
+    { "years": "2024", "what": "Cybersecurity", "where": "Fullstack Academy" },
+    { "years": "2023", "what": "Full-Stack Engineering", "where": "Flatiron School" }
+  ],
+  "languages": "Spanish (native), English (C1), Dutch (A1). EU work authorisation."
+}
