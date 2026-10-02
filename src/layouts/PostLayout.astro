@@ -1,6 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import { longDate, readingTime, bodyText, type Post } from '../lib/posts';
+import { SITE, person } from '../data/site';
 
 interface Props {
   post: Post;
@@ -11,8 +12,24 @@ interface Props {
 const { post, older, newer } = Astro.props;
 const { title, description, pubDate, category, tags } = post.data;
 const hasBody = bodyText(post).length > 0;
+const site = Astro.site!;
+const url = new URL(`/blog/${post.id}/`, site).href;
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description,
+  datePublished: pubDate.toISOString(),
+  url,
+  mainEntityOfPage: url,
+  image: new URL('/og-image.png', site).href,
+  inLanguage: 'en',
+  articleSection: category,
+  keywords: tags,
+  author: { '@id': person(site)['@id'], '@type': 'Person', name: SITE.title, url: site.href },
+};
 ---
-<BaseLayout title={title} description={description} current="writing" article={{ published: pubDate, tags }}>
+<BaseLayout title={title} description={description} current="writing" article={{ published: pubDate, tags }} schema={schema}>
   <article class="column column-640">
     <a href="/blog/" class="back accent">← Writing</a>
 

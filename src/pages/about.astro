@@ -4,8 +4,11 @@ import SectionLabel from '../components/SectionLabel.astro';
 import resume from '../data/resume.json';
 import { Image } from 'astro:assets';
 import portrait from '../assets/ivan.jpg';
+import { person } from '../data/site';
+
+const schema = { '@context': 'https://schema.org', '@type': 'ProfilePage', url: new URL('/about/', Astro.site).href, mainEntity: person(Astro.site!) };
 ---
-<BaseLayout title="About" description="Ivan Arias: geological engineer and GIS analyst. Experience, skills and education." current="about">
+<BaseLayout title="About: GIS Analyst & Geological Engineer" description="Ivan Arias, GIS analyst and geological engineer in Den Haag: 13 years of subsurface mapping at PDVSA, now building web GIS with Python, PostGIS and Leaflet." current="about" schema={schema}>
   <div data-about class="about">
     <aside>
       <h1 class="page-title">About</h1>

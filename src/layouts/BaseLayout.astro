@@ -21,10 +21,12 @@ interface Props {
   article?: { published: Date; tags: string[] };
   /** Keep the page out of search results (404). Also drops the canonical URL. */
   noindex?: boolean;
+  /** schema.org JSON-LD object for this page. */
+  schema?: Record<string, unknown>;
 }
 
-const { title, description = SITE.description, current, article, noindex = false } = Astro.props;
-const fullTitle = title ? `${title} · ${SITE.title}` : `${SITE.title} · GIS Analyst`;
+const { title, description = SITE.description, current, article, noindex = false, schema } = Astro.props;
+const fullTitle = title ? `${title} · ${SITE.title}` : `${SITE.title} · GIS Analyst, Geospatial Data & Web GIS`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL('/og-image.png', Astro.site);
 ---
@@ -56,6 +58,8 @@ const ogImage = new URL('/og-image.png', Astro.site);
     <meta property="og:image:alt" content={`${SITE.title}, GIS Analyst`} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:creator" content={SITE.twitter} />
+    {/* `<` escaped so a title can never close the script tag early. */}
+    {schema && <script type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g, '\\u003c')} />}
   </head>
   <body>
     <div class="shell">

@@ -3,13 +3,21 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionLabel from '../components/SectionLabel.astro';
 import RowLink from '../components/RowLink.astro';
 import projects from '../data/projects.json';
-import { SITE } from '../data/site';
+import { SITE, person } from '../data/site';
 import { getPosts, shortDate } from '../lib/posts';
 
 const featured = projects.filter((p) => p.featured).slice(0, 3);
 const latest = (await getPosts()).slice(0, 3);
+const site = Astro.site!;
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'WebSite', '@id': new URL('/#website', site).href, url: site.href, name: SITE.title, inLanguage: 'en', publisher: { '@id': person(site)['@id'] } },
+    person(site),
+  ],
+};
 ---
-<BaseLayout current="home">
+<BaseLayout current="home" schema={schema}>
   <div class="column column-640">
     <h1>Ivan Arias</h1>
     <div class="subtitle">GIS Analyst · Geospatial data &amp; Web GIS</div>
