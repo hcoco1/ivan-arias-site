@@ -37,13 +37,14 @@ const schema = {
     ))}
     <a href="/projects/" class="all accent">All projects →</a>
 
-    <SectionLabel top={72}>Writing</SectionLabel>
+    <SectionLabel top={72}>Latest writing</SectionLabel>
     {latest.map((post) => (
       <RowLink href={`/blog/${post.id}/`} class="post">
         <span class="title">{post.data.title}</span>
         <time class="date nums" datetime={post.data.pubDate.toISOString()}>{shortDate(post.data.pubDate)}</time>
       </RowLink>
     ))}
+    <a href="/blog/" class="all accent">All writing →</a>
   </div>
 </BaseLayout>
 

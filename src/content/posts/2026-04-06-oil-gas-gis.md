@@ -1,5 +1,5 @@
 ---
-title:  "From a simple map to a full Web GIS system — built with Claude Code."
+title:  "From a simple map to a full Web GIS system."
 description: "A new stage in my journey: learning Web GIS and full-stack web development by directing Claude Code instead of writing every line myself."
 pubDate: "Apr 6 2026"
 heroImage: "https://images.unsplash.com/photo-1586449480537-3a22cf98b04c?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
